@@ -1,0 +1,41 @@
+name: Build 
+on:
+  pull_request:
+    types: [ opened, synchronize, labeled ]
+    branches: [ "**" ]
+
+jobs:
+  build:
+    if: |
+      contains(github.event.pull_request.labels.*.name, '99: build')
+    name: build
+    runs-on: ubuntu-20.04
+    timeout-minutes: 30
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate commit hash base version tag
+        run: |
+          if [ ${{ github.event_name }} = 'push' ]; then
+            branch_name=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
+          else
+            branch_name=$(echo ${GITHUB_HEAD_REF} | sed 's/\//_/g')
+          fi
+          branch_name=${branch_name:0:70}
+          commit_hash=$(git describe --abbrev=7)
+          snapshot_tag="BRANCH_${branch_name}_${commit_hash}"
+          # snapshot_tag="SNAPSHOT_feature_branch"
+          echo "SNAPSHOT_TAG=${snapshot_tag}" | tee -a $GITHUB_ENV
+      - uses: ./.github/actions/build_image
+        id: build-image
+        with:
+          tag-name: "${SNAPSHOT_TAG}"
+
+      - uses: ./.github/actions/deploy
+        with:
+          tag-name: "${SNAPSHOT_TAG}"
+          ecr-registry: ${{ steps.build-image.outputs.ecr-registry }}

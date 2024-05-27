@@ -1,0 +1,26 @@
+name: Build
+description: Build
+inputs:
+  tag-name:
+    description: tag name
+    required: true
+
+outputs:
+  ecr-registry:
+    description: "ECR registry"
+    value: ${{ steps.register-output.outputs.ecr-registry }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: show input
+      run: |
+        echo "tag-name=${{ inputs.tag-name }}"
+        echo tag-name=${{ inputs.tag-name }}
+      shell: bash
+
+    - name: Register output
+      id: register-output
+      run: echo "ecr-registry=this-is-test-registry-name" >> $GITHUB_OUTPUT
+      shell: bash
+

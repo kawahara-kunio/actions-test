@@ -1,0 +1,26 @@
+name: Deploy
+description: Deploy
+inputs:
+  tag-name:
+    description: container image tag name
+    required: true
+  ecr-registry:
+    description: ecr registry
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: show input
+      run: |
+        echo "tag-name=${{ inputs.tag-name }}"
+        echo tag-name=${{ inputs.tag-name }}
+        echo "ecr-registry=${{ inputs.ecr-registry }}"
+      shell: bash
+
+    - name: 変数確認
+      env:
+        ECR_REPOSITORY: test-repository
+      run: echo "${{ inputs.ecr-registry }}/${{ env.ECR_REPOSITORY }}:${{ inputs.tag-name }}"
+      shell: bash
+
