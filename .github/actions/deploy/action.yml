@@ -23,4 +23,5 @@ runs:
         ECR_REPOSITORY: test-repository
       run: echo "${{ inputs.ecr-registry }}/${{ env.ECR_REPOSITORY }}:${{ inputs.tag-name }}"
       shell: bash
+      # test
 
