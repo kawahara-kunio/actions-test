@@ -1,4 +1,4 @@
-name: Build 
+name: Build
 on:
   pull_request:
     types: [ opened, synchronize, labeled ]
@@ -37,10 +37,17 @@ jobs:
 
       - name: fail step
         id: fail_step
+        continue-on-error: true
         run: exit 1
+
       - name: run if fail_step failed
-        if: ${{ failure() && steps.fail_step.outcome == 'failure' }}
-        run: echo "${{ steps.fail_step.outcome }}"
+        if: ${{ steps.fail_step.outcome == 'failure' }}
+        run: |
+          echo "steps.fail_step.outcome=${{ steps.fail_step.outcome }}"
+          echo "steps.fail_step.conclusion=${{ steps.fail_step.conclusion }}"
+          # 前ステップで continue-on-error を設定すると、結果は下記のようになる
+          # steps.fail_step.outcome=failure
+          # steps.fail_step.conclusion=success
 
       - uses: ./.github/actions/deploy
         with:

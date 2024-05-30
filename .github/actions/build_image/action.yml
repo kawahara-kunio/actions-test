@@ -15,7 +15,6 @@ runs:
   steps:
     - name: show input
       run: |
-        echo "tag-name=${{ inputs.tag-name }}"
         echo tag-name=${{ inputs.tag-name }}
       shell: bash
 
