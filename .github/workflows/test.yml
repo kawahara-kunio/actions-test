@@ -33,9 +33,16 @@ jobs:
       - uses: ./.github/actions/build_image
         id: build-image
         with:
-          tag-name: "${SNAPSHOT_TAG}"
+          tag-name: "${{ env.SNAPSHOT_TAG }}"
+
+      - name: fail step
+        id: fail_step
+        run: exit 1
+      - name: run if fail_step failed
+        if: ${{ failure() && steps.fail_step.outcome == 'failure' }}
+        run: echo "${{ steps.fail_step.outcome }}"
 
       - uses: ./.github/actions/deploy
         with:
-          tag-name: "${SNAPSHOT_TAG}"
+          tag-name: "${{ env.SNAPSHOT_TAG }}"
           ecr-registry: ${{ steps.build-image.outputs.ecr-registry }}
