@@ -1,0 +1,36 @@
+name: Checkout test by pull_request event
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    types: [ opened, synchronize ]
+    branches: [ "**" ]
+
+jobs:
+  checkout_test:
+    name: checkout test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Show variables
+        run: |
+          echo "①GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}"
+          echo "②GITHUB_REF=${GITHUB_REF}"
+          echo "③GITHUB_REF_NAME=${GITHUB_REF_NAME}"
+          echo "④GITHUB_BASE_REF=${GITHUB_BASE_REF}"
+          echo "⑤GITHUB_HEAD_REF=${GITHUB_HEAD_REF}"
+          echo "⑥GITHUB_SHA=${GITHUB_SHA}"
+          echo "⑦github.event.pull_request.head.ref"=${{ github.event.pull_request.head.ref }}
+          echo "⑧github.event.pull_request.head.sha"=${{ github.event.pull_request.head.sha }}
+          echo "⑨github.event.pull_request.base.ref"=${{ github.event.pull_request.base.ref }}
+          echo "⑩github.event.pull_request.base.sha"=${{ github.event.pull_request.base.sha }}
+      - uses: actions/checkout@v4
+      - name: Show current commit hash
+        run: |
+          git log -n 1 --format=%H
+          git log
+
+
+
