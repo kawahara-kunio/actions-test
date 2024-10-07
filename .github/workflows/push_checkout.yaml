@@ -1,10 +1,7 @@
-name: Checkout test
+name: Checkout test by push event
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    types: [ opened, synchronize ]
-    branches: [ "**" ]
+    branches: [ "feature/*" ]
 
 jobs:
   checkout_test:
