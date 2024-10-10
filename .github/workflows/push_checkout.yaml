@@ -19,11 +19,10 @@ jobs:
           echo "04 GITHUB_BASE_REF=${GITHUB_BASE_REF}"
           echo "05 GITHUB_HEAD_REF=${GITHUB_HEAD_REF}"
           echo "06 GITHUB_SHA=${GITHUB_SHA}"
-          echo "07 github.event.push.after"=${{ github.event.push.after }}
-          echo "08 github.event.push.before"=${{ github.event.push.before }}
-          echo "09 github.event.push.base_ref"=${{ github.event.push.base_ref }}
-          echo "10 github.event.push.ref"=${{ github.event.push.ref }}
-          echo "10 github.event.push.created"=${{ github.event.push.created }}
+          echo "07 github.event.pull_request.head.ref"=${{ github.event.pull_request.head.ref }}
+          echo "08 github.event.pull_request.head.sha"=${{ github.event.pull_request.head.sha }}
+          echo "09 github.event.pull_request.base.ref"=${{ github.event.pull_request.base.ref }}
+          echo "10 github.event.pull_request.base.sha"=${{ github.event.pull_request.base.sha }}
       - uses: actions/checkout@v4
       - name: Show current commit hash
         run: |
