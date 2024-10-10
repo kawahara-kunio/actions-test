@@ -23,6 +23,7 @@ jobs:
           echo "08 github.event.push.before"=${{ github.event.push.before }}
           echo "09 github.event.push.base_ref"=${{ github.event.push.base_ref }}
           echo "10 github.event.push.ref"=${{ github.event.push.ref }}
+          echo "10 github.event.push.created"=${{ github.event.push.created }}
       - uses: actions/checkout@v4
       - name: Show current commit hash
         run: |
