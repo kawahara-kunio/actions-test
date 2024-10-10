@@ -2,7 +2,7 @@ name: Build
 on:
   pull_request:
     types: [ opened, synchronize, labeled ]
-    branches: [ "**" ]
+    branches: [ "test/**" ] # 動かないようにする(必要な時に修正する)
 
 jobs:
   build:
