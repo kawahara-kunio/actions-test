@@ -6,6 +6,7 @@ on:
 
 jobs:
   notify-prod-plan-warning:
+    # plan結果のプロジェクト数が1つと複数の場合でメッセージ形式が微妙に異なるので両方に対応している
     if: |
       github.event.issue.pull_request &&
       ((contains(github.event.comment.body, 'Ran Plan for ') &&
@@ -26,4 +27,3 @@ jobs:
               issue_number: context.issue.number,
               body: warning,
             });
-
