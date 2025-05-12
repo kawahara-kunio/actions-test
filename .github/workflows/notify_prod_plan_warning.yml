@@ -19,7 +19,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const warning = '⚠️ **prod環境の変更が行われる可能性があります**';
+            const warning = '⚠️⚠️ **prod環境の変更が行われる可能性があります** ⚠️⚠️';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
