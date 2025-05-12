@@ -8,8 +8,9 @@ jobs:
   notify-prod-plan-warning:
     if: |
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, 'Ran Plan for ') &&
-      contains(github.event.comment.body, '1. project: `prod')
+      ((contains(github.event.comment.body, 'Ran Plan for ') &&
+        contains(github.event.comment.body, '1. project: `prod')) ||
+       contains(github.event.comment.body, 'Ran Plan for project: `prod'))
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
